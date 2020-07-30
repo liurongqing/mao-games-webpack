@@ -1,0 +1,3 @@
+[submodule "mao-game-webpack"]
+	path = mao-game-webpack
+	url = git@github.com:liurongqing/mao-game-webpack.git
