@@ -1,1 +1,0 @@
-export { MainScene } from './Main'
