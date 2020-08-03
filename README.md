@@ -5,7 +5,8 @@
 
 ## 复制一份新项目
 ```bash
-rsync -av --exclude .git mao-game-webpack/ new-game # 复制一份新项目，排除 .git 目录
+# 复制一份新项目，排除 .git 目录
+rsync -av --exclude .git mao-game-webpack/ new-game 
 ```
 
 ## 问题反馈
