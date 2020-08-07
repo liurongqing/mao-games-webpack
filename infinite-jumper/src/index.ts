@@ -12,18 +12,19 @@ const config: any = {
     mode: Phaser.Scale.NONE,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     parent: 'app',
-    width: 800,
-    height: 600
+    width: 480,
+    height: 640
   },
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 200 }
+      gravity: { y: 200 },
+      debug: true
     }
   },
-  // audio: {
-  //   noAudio: true
-  // },
+  audio: {
+    noAudio: true
+  },
   // banner: {
   //   hidePhaser: true
   // },
