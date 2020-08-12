@@ -1,5 +1,4 @@
 import * as scenes from '@/scenes'
-
 const scene = []
 for (let i in scenes) {
   scene.push(scenes[i])
