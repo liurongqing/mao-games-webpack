@@ -153,14 +153,3 @@ tsconfig.json // 为了让 VSCode 识别 Typescript 语法
 - 微信: 16620882081
 
 
-错误
-
-1. [.WebGL-0x7fb093019600]RENDER WARNING: there is no texture bound to the unit 5
-  WebGL: too many errors, no more errors will be reported to the console for this context.
-
-
-TODO
-1. 所有文件命名都为小写
-1. 移动index.html 到 public目录 下
-1. 更改 index.ts 为 home.ts
-1. 更改 index.html 主节点为 id="root"
