@@ -4,10 +4,6 @@ export class GameOverScene extends Phaser.Scene {
     super('GameOverScene')
   }
 
-  preload() {
-
-  }
-
   create() {
     const width = this.scale.width
     const height = this.scale.height
@@ -15,9 +11,9 @@ export class GameOverScene extends Phaser.Scene {
       fontSize: 48
     })
       .setOrigin(0.5)
-  }
 
-  update(t, dt) {
-
+    this.input.keyboard.once('keydown_SPACE', () => {
+      this.scene.start('MainScene')
+    })
   }
 }

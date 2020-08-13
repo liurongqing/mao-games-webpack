@@ -6,11 +6,11 @@ for (let i in scenes) {
 
 const config: any = {
   type: Phaser.AUTO,
-  backgroundColor: 0x000000,
+  // backgroundColor: 0x000000,
   scale: {
     mode: Phaser.Scale.NONE,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    parent: 'app',
+    parent: 'root',
     width: 480,
     height: 640
   },
@@ -21,9 +21,9 @@ const config: any = {
       debug: true
     }
   },
-  audio: {
-    noAudio: true
-  },
+  // audio: {
+  //   noAudio: true
+  // },
   // banner: {
   //   hidePhaser: true
   // },
