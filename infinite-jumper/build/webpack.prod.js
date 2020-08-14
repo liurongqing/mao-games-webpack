@@ -1,4 +1,4 @@
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -8,12 +8,12 @@ module.exports = merge(common, {
   mode: 'production',
   plugins: [
     new CleanWebpackPlugin(),
-    new CopyPlugin([
-      {
+    new CopyPlugin({
+      patterns: [{
         from: 'public',
         to: './'
-      }
-    ])
+      }]
+    })
   ],
   optimization: {
     minimizer: [
@@ -31,5 +31,4 @@ module.exports = merge(common, {
       })
     ]
   },
-  devtool: 'source-map'
 })
