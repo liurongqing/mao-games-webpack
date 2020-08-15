@@ -5,7 +5,7 @@
 
 ## 游戏列表
 
-1. [xxxxxxxxx](xxxxxxxxx)
+1. [无限跳跃](https://liurongqing.github.io/mao-games-webpack/infinite-jumper/docs)
 2. [xxxxxxxxx](xxxxxxxxx)
 3. [xxxxxxxxx](xxxxxxxxx)
 
