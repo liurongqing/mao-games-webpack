@@ -12,7 +12,7 @@
 ## 复制一份新项目
 ```bash
 # 复制一份新项目，排除 .git 目录
-rsync -av --exclude .git mao-game-webpack/ new-game 
+rsync -av --exclude .git mao-game-webpack/ new-game
 ```
 
 ## 更新 npm 包
