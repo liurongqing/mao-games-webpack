@@ -7,18 +7,21 @@ for (let i in scenes) {
 
 const config: any = {
   type: Phaser.AUTO,
-  backgroundColor: 0x000000,
+  // backgroundColor: 0x888888,
   scale: {
     mode: Phaser.Scale.NONE,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     parent: 'root',
     width: 800,
-    height: 600
+    height: 500
   },
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 200 }
+      gravity: {
+        y: 0
+      },
+      debug: true
     }
   },
   // audio: {
