@@ -1,6 +1,12 @@
 import WebFontFile from '../WebFontFile'
 import GameBackground from '../GameBackground'
 
+const GameState = {
+  Running: 'running',
+  PlayerWon: 'player-won',
+  AIWon: 'ai-won'
+}
+
 export class MainScene extends Phaser.Scene {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys
   paddingLeft: any
@@ -11,6 +17,8 @@ export class MainScene extends Phaser.Scene {
   rightScoreLabel: any
   leftScore: any
   rightScore: any
+  paused: boolean
+  gameState: string
   constructor() {
     super('MainScene')
   }
@@ -19,6 +27,8 @@ export class MainScene extends Phaser.Scene {
     this.paddingRightVelocity = new Phaser.Math.Vector2(0, 0)
     this.leftScore = 0
     this.rightScore = 0
+    this.paused = false
+    this.gameState = GameState.Running
   }
 
   preload() {
@@ -29,8 +39,9 @@ export class MainScene extends Phaser.Scene {
   create() {
 
     this.scene.run('GameBackgroundScene')
+    this.scene.sendToBack('GameBackgroundScene')
     this.physics.world.setBounds(-100, 0, 1000, 500) // 向外各扩散100
-    this.ball = this.add.circle(400, 250, 30, 0xffffff, 1)
+    this.ball = this.add.circle(400, 250, 10, 0xffffff, 1)
     this.paddingLeft = this.add.rectangle(50, 250, 30, 100, 0xffffff, 1)
     this.paddingRight = this.add.rectangle(750, 250, 30, 100, 0xffffff, 1)
     this.physics.add.existing(this.ball)
@@ -38,8 +49,9 @@ export class MainScene extends Phaser.Scene {
     this.physics.add.existing(this.paddingRight, true)
 
 
-    this.resetBall()
     this.ball.body.setBounce(1, 1)
+    this.ball.body.setCircle(10)
+    this.ball.body.onWorldBounds = true
     this.ball.body.setCollideWorldBounds(true, 1, 1)
 
 
@@ -59,9 +71,28 @@ export class MainScene extends Phaser.Scene {
       fontFamily: '"Press Start 2P"'
     })
       .setOrigin(0.5, 0.5)
+
+    this.time.delayedCall(1500, () => {
+      this.resetBall()
+    })
+
+    this.physics.world.once('worldbounds', this.handleWorld)
   }
 
+  handleWorld(){}
+
   update() {
+
+    if (this.paused || this.gameState !== GameState.Running) return
+
+    this.processPlayerInput()
+
+    this.updateAI()
+
+    this.checkScore()
+  }
+
+  processPlayerInput() {
     const body = this.paddingLeft.body as Phaser.Physics.Arcade.StaticBody
     if (this.cursors.up.isDown) {
       this.paddingLeft.y -= 10
@@ -70,6 +101,9 @@ export class MainScene extends Phaser.Scene {
       this.paddingLeft.y += 10
       body.updateFromGameObject()
     }
+  }
+
+  updateAI() {
 
     const aiSpeed = 3
     const diff = this.ball.y - this.paddingRight.y
@@ -85,15 +119,50 @@ export class MainScene extends Phaser.Scene {
     this.paddingRight.y += this.paddingRightVelocity.y
     this.paddingRight.body.updateFromGameObject()
 
-    if (this.ball.x < -30) {
-      this.incrementLeftScore()
-      this.resetBall()
-    }
-    if (this.ball.x > 830) {
+  }
+
+  checkScore() {
+    const x = this.ball.x
+    const leftBounds = -30
+    const rightBounds = 830
+    // 如果在里面不处理分数
+    if (x >= leftBounds && x <= rightBounds) return
+
+    if (this.ball.x < leftBounds) {
       this.incrementRightScore()
+      // this.resetBall()
+    } else if (this.ball.x > rightBounds) {
+      this.incrementLeftScore()
+      // this.resetBall()
+    }
+
+
+
+    const maxScore = 1
+    if (this.leftScore >= maxScore) {
+      // player won
+      // this.paused = true
+      this.gameState = GameState.PlayerWon
+    } else if (this.rightScore >= maxScore) {
+      // ai won
+      // this.paused = true
+      this.gameState = GameState.AIWon
+    }
+
+    if (this.gameState === GameState.Running) {
+      console.log('reset...')
       this.resetBall()
+    }else{
+      this.ball.active = false
+      this.physics.world.remove(this.ball.body)
+      this.scene.stop('GameBackgroundScene')
+      this.scene.start('game-over', {
+        leftScore: this.leftScore,
+        rightScore: this.rightScore
+      })
     }
   }
+
 
   resetBall() {
     this.ball.setPosition(400, 300)
